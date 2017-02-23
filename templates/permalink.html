@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link type="text/css" rel="stylesheet" href="/static/main.css"/>
+  <title>Blog Post</title>
+</head>
+
+<body>
+  <a href="/blog" class="main-title">Blog Post</a>
+
+  <div class="login-area">
+    {% if user %}
+      Welcome, {{user.name}} (<a class="login-link" href="/logout">logout</a>)
+      |
+      <a href="/blog/newpost">New Post</a>
+    {% else %}
+      <a class="login-link" href="/login">login</a>
+      |
+      <a class="login-link" href="/signup">signup</a>
+    {% endif %}
+  </div>
+
+  <div id="content">
+  {{post.render(user, False) | safe}}
+
+  {% if user %}
+      <br>
+      <br>
+      <form class="new-comment-form" action="/blog/newcomment" method="post">
+          <label>
+              <div>Leave Your Comments:</div>
+                <textarea name="content">{{content}}</textarea>
+                <input type="hidden" name="post_id" value="{{post.key().id()}}">
+          </label>
+          <div class="error">{{error}}</div>
+          <input type="submit" name="submit">
+      </form>
+  {% endif %}
+  <br>
+  <br>
+    {% if comments.count() %}
+    <h2 class="comment-header">Comments</h2>
+    {% for comment in comments %}
+      {{comment.render(user) | safe}}
+      <br><br>
+    {% endfor %}
+  {% endif %}
+
+</div>
+</body>
+
+</html>
+
+

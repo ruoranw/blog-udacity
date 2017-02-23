@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link type="text/css" rel="stylesheet" href="/static/main.css"/>
+  <title>Blog Post</title>
+</head>
+
+<body>
+
+  <div class="login-area">
+    {% if user %}
+      Welcome, {{user.name}} (<a class="login-link" href="/logout">logout</a>)
+      |
+      <a href="/blog/newpost">New Post</a>
+    {% else %}
+      <a class="login-link" href="/login">login</a>
+      |
+      <a class="login-link" href="/signup">signup</a>
+    {% endif %}
+  </div>
+
+<div id="content">
+
+  <div class="post">
+    <div class="post-heading">
+      <div class="post-title">
+        {% if user %}
+          <a href="/blog/{{p.key().id()}}">{{p.subject}}</a>
+        {% else %}
+          {{p.subject}}
+        {% endif %}
+      </div>
+
+      <div class="post-date">
+        {% if user %}
+            <a href="/blog/{{p.key().id()}}">Comment</a>
+        {% endif %}
+        {% if user.key().id() == p.author_id %}
+          <a href="/blog/editpost?post_id={{p.key().id()}}">Edit</a>
+          <a href="/blog/deletepost?post_id={{p.key().id()}}">Delete</a>
+        {% else %}
+          {% if user.key().id() not in p.liked %}
+            <a href="/blog/like?post_id={{p.key().id()}}&amp;permalink={{ not permalink }}">Like</a>
+          {% else %}
+            <a href="/blog/dislike?post_id={{p.key().id()}}&amp;permalink={{ not permalink }}">Dislike</a>
+        {% endif %}
+      {% endif %}
+
+      ({{p.liked_count}} likes) - {{p.created.strftime("%b %d, %Y")}} by {{ author.name }}
+
+      </div>
+    </div>
+
+    <div class="post-content">
+      {{p._render_text | safe}}
+    </div>
+
+  </div>
+
+</div>
+</body>
+
+</html>
+

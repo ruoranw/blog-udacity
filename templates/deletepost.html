@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h2>delete post</h2>
+
+    <p> Are you sure you want to delete "{{post.subject}}" ?</p>
+
+    <form method="post">
+      <input type="hidden" name="post_id" value="{{post.key().id()}}">
+      <input type="submit" value="Delete"> or <a href="/blog">Cancel</a>
+    </form>
+
+{% endblock %}

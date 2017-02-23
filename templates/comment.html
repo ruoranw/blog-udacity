@@ -1,0 +1,26 @@
+<div class="comment">
+
+    <div class="post-title">{{ author.name }} said:</div>
+
+    <div class="post-heading">
+        <div class="post-date">
+            {% if user %}
+                {% if user.key().id() == c.author_id %}
+                <a href="/blog/editcomment?comment_id={{c.key().id()}}">Edit</a>
+                <a href="/blog/deletecomment?comment_id={{c.key().id()}}">Delete</a>
+                {% else %}
+                    {% if user.key().id() not in c.liked %}
+                    <a href="/blog/like?comment_id={{c.key().id()}}&amp;permalink={{ not permalink }}">Like</a> {% else %}
+                    <a href="/blog/dislike?comment_id={{c.key().id()}}&amp;permalink={{ not permalink }}">Dislike</a>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+
+            ({{c.liked_count}} likes) - {{c.created.strftime("%b %d, %Y")}}
+        </div>
+    </div>
+
+    <div class="post-content">
+        {{c._render_text | safe}}
+    </div>
+</div>
