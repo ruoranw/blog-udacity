@@ -24,7 +24,7 @@
   <div class="post">
     <div class="post-heading">
       <div class="post-title">
-        {% if user %}
+        {% if permalink %}
           <a href="/blog/{{p.key().id()}}">{{p.subject}}</a>
         {% else %}
           {{p.subject}}
@@ -33,6 +33,7 @@
 
       <div class="post-date">
         {% if user %}
+          {% if permalink %}
             <a href="/blog/{{p.key().id()}}">Comment</a>
         {% endif %}
         {% if user.key().id() == p.author_id %}
@@ -43,6 +44,7 @@
             <a href="/blog/like?post_id={{p.key().id()}}&amp;permalink={{ not permalink }}">Like</a>
           {% else %}
             <a href="/blog/dislike?post_id={{p.key().id()}}&amp;permalink={{ not permalink }}">Dislike</a>
+            {% endif %}
         {% endif %}
       {% endif %}
 
